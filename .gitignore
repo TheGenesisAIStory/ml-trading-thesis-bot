@@ -1,0 +1,49 @@
+# Local secrets
+.env
+.env.*
+!.env.example
+
+# Python caches and environments
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.venv/
+venv/
+
+# OS/editor noise
+.DS_Store
+
+# Local caches and heavy generated artifacts
+.cache/
+*.pkl
+*.joblib
+*.h5
+*.hdf
+*.hdf5
+
+# Large/generated data caches. Keep lightweight metadata/docs explicitly tracked.
+data/*
+!data/README.md
+!data/catalog/
+!data/catalog/*.csv
+!data/catalog/*.parquet
+!data/data_providers/
+data/data_providers/*.parquet
+data/data_providers/*.raw.parquet
+!data/data_providers/api_registry/
+!data/data_providers/api_registry/*.csv
+!data/data_providers/api_registry/*.parquet
+!data/*.py
+!data/*.ipynb
+
+# Private generated API diagnostics
+data/private_api_checks/
+data/local_market_data/
+
+# ITCH raw/decompressed data is large; notebooks and helper metadata remain trackable.
+02_market_and_fundamental_data/01_NASDAQ_TotalView-ITCH_Order_Book/data/
+02_market_and_fundamental_data/01_NASDAQ_TotalView-ITCH_Order_Book/*.gz
+02_market_and_fundamental_data/01_NASDAQ_TotalView-ITCH_Order_Book/*.bin
+02_market_and_fundamental_data/01_NASDAQ_TotalView-ITCH_Order_Book/*.h5
+02_market_and_fundamental_data/01_NASDAQ_TotalView-ITCH_Order_Book/*_parquet/
+13_unsupervised_learning/data/
