@@ -1,0 +1,10 @@
+pandas
+numpy
+matplotlib
+seaborn
+python-dotenv
+tqdm
+requests
+scikit-learn
+plotly
+jupyter
