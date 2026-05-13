@@ -2,7 +2,7 @@
 
 This repository now contains dedicated GitHub-ready research folders:
 
-> **Notebook canonici:** i notebook research sono mantenuti nelle rispettive cartelle `*/notebooks/`. Le copie top-level duplicate non sono versionate, così i merge con il ramo principale rimangono più semplici e ogni progetto ha una sola fonte di verità.
+> **Notebook canonici:** i notebook research sono mantenuti nelle rispettive cartelle `*/notebooks/`. Per compatibilità con vecchi link Colab può esistere anche una copia top-level, ma la fonte di verità rimane il percorso nella cartella del progetto.
 
 | Folder | Purpose | Main notebook |
 |---|---|---|
