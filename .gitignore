@@ -33,12 +33,24 @@ data/data_providers/*.raw.parquet
 !data/data_providers/api_registry/
 !data/data_providers/api_registry/*.csv
 !data/data_providers/api_registry/*.parquet
+!data/alternative_data/
+!data/alternative_data/*.parquet
+!data/alternative_data/free_finance_ml_sources/
+!data/alternative_data/free_finance_ml_sources/*.csv
+!data/alternative_data/free_finance_ml_sources/*.json
+!data/alternative_data/free_finance_ml_sources/*.parquet
+!data/alternative_data/prediction_social/
+data/alternative_data/prediction_social/*
+!data/alternative_data/prediction_social/*_feature_snapshot.parquet
+!data/alternative_data/prediction_social/stocktwits_recent_messages.parquet
 !data/*.py
 !data/*.ipynb
 
 # Private generated API diagnostics
 data/private_api_checks/
 data/local_market_data/
+
+# Raw alternative-data pulls can be refreshed locally and may contain noisy payloads.
 
 # ITCH raw/decompressed data is large; notebooks and helper metadata remain trackable.
 02_market_and_fundamental_data/01_NASDAQ_TotalView-ITCH_Order_Book/data/
