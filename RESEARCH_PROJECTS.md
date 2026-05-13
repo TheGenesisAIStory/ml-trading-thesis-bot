@@ -2,6 +2,8 @@
 
 This repository now contains dedicated GitHub-ready research folders:
 
+> **Notebook canonici:** i notebook research sono mantenuti nelle rispettive cartelle `*/notebooks/`. Le copie top-level duplicate non sono versionate, così i merge con il ramo principale rimangono più semplici e ogni progetto ha una sola fonte di verità.
+
 | Folder | Purpose | Main notebook |
 |---|---|---|
 | `company_valuation/` | Company valuation, FMP fundamentals, SWS-style scoring, fair-value estimates, and dashboard | `company_valuation/notebooks/Company_Valuatio.ipynb` |

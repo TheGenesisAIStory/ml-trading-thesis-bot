@@ -2,7 +2,7 @@
 
 Cartella dedicata alla **valutazione aziendale** e all'integrazione tra dati di mercato, fondamentali e dashboard finale.
 
-Questa directory raccoglie il lavoro sviluppato nel notebook `Company_Valuatio.ipynb` in una struttura GitHub-ready, così che il progetto possa essere usato in Colab oggi e migrato in moduli Python riusabili in futuro.
+Questa directory è la posizione canonica del notebook `notebooks/Company_Valuatio.ipynb` e dei moduli Python collegati. Il notebook top-level duplicato è stato rimosso per evitare conflitti di merge e mantenere una sola fonte di verità GitHub-ready.
 
 ## Contenuto
 
@@ -12,7 +12,8 @@ company_valuation/
 │   └── Company_Valuatio.ipynb        # Notebook Colab/Jupyter completo
 ├── src/
 │   ├── __init__.py
-│   └── company_valuation_utils.py    # Helper riusabili estratti/organizzati dal notebook
+│   ├── company_valuation_utils.py    # Helper riusabili estratti/organizzati dal notebook
+│   └── sws_company_analysis_model.py # Modello SWS-style eseguibile
 ├── output/
 │   ├── tables/.gitkeep               # Tabelle CSV/parquet generate dal runtime
 │   ├── figures/.gitkeep              # Figure statiche o HTML chart generate dal runtime
@@ -21,6 +22,16 @@ company_valuation/
 ├── requirements.txt                  # Dipendenze principali
 └── README.md                         # Questa guida
 ```
+
+## Risoluzione conflitti e percorso canonico
+
+Per ridurre conflitti con il ramo principale e con l'editor GitHub, il progetto usa **un solo notebook canonico**:
+
+```text
+company_valuation/notebooks/Company_Valuatio.ipynb
+```
+
+Non viene più mantenuta una copia duplicata in root (`Company_Valuatio.ipynb`). I link Colab e la documentazione puntano al percorso canonico nella cartella del progetto.
 
 ## Pipeline finale
 
