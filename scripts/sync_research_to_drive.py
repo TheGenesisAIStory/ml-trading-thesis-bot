@@ -11,11 +11,14 @@ from __future__ import annotations
 
 import argparse
 import shutil
+from datetime import UTC, datetime
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 PROJECT_FOLDERS = ["company_valuation", "pead_european_banks_ifrs9", "portfolio_analysis", "prompts"]
+SUPPORT_FILES = ["RESEARCH_PROJECTS.md", "EXPORT_LOCATIONS.md", "Company_Valuatio.ipynb"]
 GENERATED_OUTPUT_NAMES = {"output", ".ipynb_checkpoints", "__pycache__"}
+MANIFEST_NAME = "RESEARCH_EXPORT_MANIFEST.md"
 
 
 def _ignore_generated(_: str, names: list[str]) -> set[str]:
@@ -23,7 +26,46 @@ def _ignore_generated(_: str, names: list[str]) -> set[str]:
     return {name for name in names if name in GENERATED_OUTPUT_NAMES}
 
 
-def sync_to_drive(destination: Path, folders: list[str], *, include_output: bool = False, repo_root: Path = REPO_ROOT) -> list[Path]:
+def _copy_path(src: Path, dst: Path, *, include_output: bool = False) -> Path:
+    if dst.exists():
+        if dst.is_dir():
+            shutil.rmtree(dst)
+        else:
+            dst.unlink()
+    dst.parent.mkdir(parents=True, exist_ok=True)
+    if src.is_dir():
+        shutil.copytree(src, dst, ignore=None if include_output else _ignore_generated)
+    else:
+        shutil.copy2(src, dst)
+    return dst
+
+
+def _write_manifest(destination: Path, copied: list[Path]) -> Path:
+    manifest = destination / MANIFEST_NAME
+    lines = [
+        "# Research Export Manifest",
+        "",
+        f"Generated UTC: {datetime.now(UTC).isoformat(timespec='seconds')}",
+        f"Destination: `{destination}`",
+        "",
+        "## Copied paths",
+        "",
+    ]
+    for path in copied:
+        kind = "directory" if path.is_dir() else "file"
+        lines.append(f"- `{path}` ({kind})")
+    manifest.write_text("\n".join(lines) + "\n")
+    return manifest
+
+
+def sync_to_drive(
+    destination: Path,
+    folders: list[str],
+    *,
+    include_output: bool = False,
+    include_support_files: bool = True,
+    repo_root: Path = REPO_ROOT,
+) -> list[Path]:
     """Copy selected research folders to Drive from any current working directory."""
     if not destination.parent.exists():
         raise FileNotFoundError(
@@ -32,7 +74,6 @@ def sync_to_drive(destination: Path, folders: list[str], *, include_output: bool
         )
     destination.mkdir(parents=True, exist_ok=True)
     copied: list[Path] = []
-    ignore = None if include_output else _ignore_generated
     for folder in folders:
         src = (repo_root / folder).resolve()
         if not src.exists():
@@ -41,11 +82,13 @@ def sync_to_drive(destination: Path, folders: list[str], *, include_output: bool
         if not src.is_dir():
             print(f"⚠️ Skipping non-directory path: {src}")
             continue
-        dst = destination / src.name
-        if dst.exists():
-            shutil.rmtree(dst)
-        shutil.copytree(src, dst, ignore=ignore)
-        copied.append(dst)
+        copied.append(_copy_path(src, destination / src.name, include_output=include_output))
+    if include_support_files:
+        for relative in SUPPORT_FILES:
+            src = repo_root / relative
+            if src.exists():
+                copied.append(_copy_path(src, destination / relative, include_output=include_output))
+    copied.append(_write_manifest(destination, copied))
     return copied
 
 
@@ -54,10 +97,16 @@ def main() -> int:
     parser.add_argument("--destination", default="/content/drive/MyDrive/ml-trading-thesis-bot_research_exports")
     parser.add_argument("--folders", nargs="*", default=PROJECT_FOLDERS)
     parser.add_argument("--include-output", action="store_true", help="Also copy generated output/ folders and notebook checkpoints.")
+    parser.add_argument("--no-support-files", action="store_true", help="Skip RESEARCH_PROJECTS.md, EXPORT_LOCATIONS.md, and top-level notebook mirror.")
     args = parser.parse_args()
     destination = Path(args.destination)
     try:
-        copied = sync_to_drive(destination, args.folders, include_output=args.include_output)
+        copied = sync_to_drive(
+            destination,
+            args.folders,
+            include_output=args.include_output,
+            include_support_files=not args.no_support_files,
+        )
     except Exception as exc:
         print(f"⚠️ Drive sync skipped: {exc}")
         return 0
