@@ -13,7 +13,7 @@ import argparse
 import shutil
 from pathlib import Path
 
-PROJECT_FOLDERS = ["company_valuation", "pead_european_banks_ifrs9", "prompts"]
+PROJECT_FOLDERS = ["company_valuation", "pead_european_banks_ifrs9", "portfolio_analysis", "prompts"]
 
 
 def sync_to_drive(destination: Path, folders: list[str]) -> list[Path]:
