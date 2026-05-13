@@ -97,3 +97,17 @@ jupyter notebook company_valuation/notebooks/Company_Valuatio.ipynb
 ## Nota metodologica
 
 La sezione scorecard è ispirata al modello pubblico Simply Wall St / Company Analysis Model a livello metodologico: assi interpretabili per Value, Future, Past, Health e Income, implementati qui con controlli trasparenti sui dati disponibili nel notebook.
+
+## Salvataggio su Google Drive
+
+Da Colab, dopo `drive.mount('/content/drive')`, puoi salvare questa cartella e gli altri asset research con:
+
+```bash
+python scripts/sync_research_to_drive.py
+```
+
+Destinazione default:
+
+```text
+/content/drive/MyDrive/ml-trading-thesis-bot_research_exports/company_valuation
+```
